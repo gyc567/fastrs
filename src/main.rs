@@ -1,10 +1,36 @@
-extern crate hyper;
-use hyper::server::{Request, Response, Server};
+#![deny(warnings)]
+extern crate pretty_env_logger;
+// #[macro_use]
+// extern crate log;
+use std::convert::Infallible;
 
-fn main() {
-    let server = Server::http("127.0.0.1:9090").unwrap();
-    let _guard = server.handle(pipe_through);
-    println!("Listening on http://127.0.0.1:9090");
+use hyper::service::{make_service_fn, service_fn};
+use hyper::{Body, Request, Response, Server};
+
+async fn hello(_: Request<Body>) -> Result<Response<Body>, Infallible> {
+    Ok(Response::new(Body::from("Hello World!")))
 }
 
-fn pipe_through(request: Request, mut response: Response) {}
+#[tokio::main]
+pub async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    pretty_env_logger::init();
+
+    // For every connection, we must make a `Service` to handle all
+    // incoming HTTP requests on said connection.
+    let make_svc = make_service_fn(|_conn| {
+        // This is the `Service` that will handle the connection.
+        // `service_fn` is a helper to convert a function that
+        // returns a Response into a `Service`.
+        async { Ok::<_, Infallible>(service_fn(hello)) }
+    });
+
+    let addr = ([127, 0, 0, 1], 3080).into();
+
+    let server = Server::bind(&addr).serve(make_svc);
+
+    println!("Listening on http://{}", addr);
+
+    server.await?;
+
+    Ok(())
+}
