@@ -10,20 +10,6 @@ use std::io::prelude::*;
 use fastrs::peer_config::*;
 use speculate::speculate;
 
-// #[derive(Deserialize, Debug)]
-// struct IpConfig {
-//     name: Option<String>,
-//     ip: Option<String>,
-//     port: Option<String>,
-// }
-
-// #[derive(Deserialize, Debug)]
-// struct Conf {
-//     global_string: Option<String>,
-//     global_integer: Option<u64>,
-//     ip_config: Option<Vec<IpConfig>>,
-// }
-
 speculate! {
     describe "config file verify" {
 
@@ -39,8 +25,14 @@ speculate! {
             Err(e) => panic!("Error Reading file: {}", e),
         };
         let config: Conf = toml::from_str(&str_val).unwrap();
+        let mut ip_confs:Vec<IpConfig>=config.ip_config.unwrap();
+        let mut ip_conf=ip_confs[0].clone();
+        let mut name=ip_conf.name;
+        let mut ip=ip_conf.ip;
+        let mut port =ip_conf.port;
 
-        }
+
+    }
 
         it "test global_string can get right value"{
         // let global_string = config.global_string;
@@ -50,6 +42,18 @@ speculate! {
         it "test global_integer can get right value"{
         // let global_string = config.global_string;
         assert_eq!(config.global_integer, Some(5));
+        }
+         it "test ipconf name  can get right value"{
+        // let global_string = config.global_string;
+        assert_eq!(name, Some(String::from("CN")));
+        }
+         it "test ipconf ip  can get right value"{
+        // let global_string = config.global_string;
+        assert_eq!(ip, Some(String::from("192.168.1.1")));
+        }
+        it "test ipconf port  can get right value"{
+        // let global_string = config.global_string;
+        assert_eq!(port, Some(String::from("9080")));
         }
         it "test the lib fn from crate"{
               assert_eq!(fastrs::add(3, 2), 5);

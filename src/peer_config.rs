@@ -1,4 +1,4 @@
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct IpConfig {
     pub name: Option<String>,
     pub ip: Option<String>,

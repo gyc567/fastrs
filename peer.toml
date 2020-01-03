@@ -3,7 +3,7 @@
     [[ip_config]]
     name="CN"
     ip="192.168.1.1"
-    port="11"
+    port="9080"
 
     # [[ip_config]]
     # name="TW"
