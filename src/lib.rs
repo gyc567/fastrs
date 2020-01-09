@@ -8,7 +8,7 @@ use std::convert::Infallible;
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server};
 
-pub mod peer_config;
+pub mod fastrs_config;
 
 // Assume that crate is called adder, will have to extern it in integration test.
 pub fn add(a: i32, b: i32) -> i32 {

@@ -7,7 +7,7 @@ pub struct IpConfig {
 
 #[derive(Deserialize, Debug)]
 pub struct Conf {
-    pub global_string: Option<String>,
-    pub global_integer: Option<u64>,
+    pub fastrs_url: Option<String>,
+    pub fastrs_port: Option<u64>,
     pub ip_config: Option<Vec<IpConfig>>,
 }
