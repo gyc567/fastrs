@@ -3,10 +3,6 @@ extern crate serde_derive;
 extern crate pretty_env_logger;
 // #[macro_use]
 // extern crate log;
-use std::convert::Infallible;
-
-use hyper::service::{make_service_fn, service_fn};
-use hyper::{Body, Request, Response, Server};
 
 pub mod fastrs_config;
 
