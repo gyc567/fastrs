@@ -11,8 +11,4 @@ mod tests {
     fn it_works2() {
         assert_eq!(2 + 3, 5);
     }
-    #[test]
-    fn test_add() {
-        assert_eq!(fastrs::add(3, 2), 5);
-    }
 }
